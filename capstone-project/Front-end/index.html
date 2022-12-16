@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          <title>Uk PostCode Search Tool</title>
+        <script>
+          //form submit method
+          $(document).ready(function(){
+            $("#post_code_form").on("submit", function(e){
+               //$(li).last().remove()
+               $('.list-group-item').empty('li').remove()
+                e.preventDefault();
+                var postcode = $("#post_code_search").val();
+                <!------------------------lambda function Trigger--------------------------------------------------------------------->
+                var url_to_validate = "https://4u4jt08k1a.execute-api.us-east-1.amazonaws.com/uk_post_code_validator?" + postcode;
+                var url_to_p_c = "https://bhdtln3baa.execute-api.us-east-1.amazonaws.com/uk_ps_parliamentary_constituency?" +postcode;
+                var url_to_get_nearest_post = "https://q7ypq62sh7.execute-api.us-east-1.amazonaws.com/uk_ps_nearest_post_code?" +postcode;
+                var url_to_get_crime_records = "https://61x8qa9fgd.execute-api.us-east-1.amazonaws.com/uk_ps_crimes?"  +postcode;
+                var url_to_count_records = "https://dek4ktwrvl.execute-api.us-east-1.amazonaws.com/crime_numbers_of-records?" +postcode;
+                url_to_get_planing_records = "https://i5jbnojgq8.execute-api.us-east-1.amazonaws.com/uk_ps_latest-planning_records?" +postcode;
+
+
+                //function to validate postcode --> using postcode.io
+
+                $.get(url_to_validate, function(data, status){
+                  if(data == 'true'){
+                    console.log("valid Postcode")
+                    $("#post_code_search").css('border', 'solid 5px green');
+
+                     //url get criminal records using --> data.police.uk
+
+                    $.get(url_to_get_crime_records, function(data, status){
+                      //console.log(data)
+                       newString = data.replace('[','').replace(']', '');
+                        var str = newString;
+                        var crime_record_array = new Array();
+                        crime_record_array = str.split(', "anti-social-behaviour",');
+                        //console.log(data);
+                        for(var i=0;i<crime_record_array.length;i++) {
+                          var li = $("<li></li>").text(crime_record_array[i]);
+                          $(li).appendTo("#crime_record_details").addClass('list-group-item');
+                      }
+                    });
+
+                     //function to count total number of records
+    
+                    $.get(url_to_count_records, function(data, status){
+                      var li = $("<li></li>").text(data);
+                      $(li).appendTo("#crime-records_number").addClass('list-group-item');
+                    });
+
+                     //function to get parlim_con
+
+                    $.get(url_to_p_c, function(data, status){
+                      var li = $("<li></li>").text(data);
+                      //$(li).text("#parlimentary_con").addClass('list-group-item');
+                      $(li).appendTo("#parlimentary_con").addClass('list-group-item');
+                      //$("#parlimentary_con").text(data);
+                    });
+
+                     //function to get nearest post codes
+
+                    $.get(url_to_get_nearest_post, function(data, status){
+                      //console.log(data);
+                        newString = data.replace('[','').replace(']', '');
+                        var str = newString;
+                        var post_code_array = new Array();
+                        post_code_array = str.split(",");
+                        for(var i=0;i<post_code_array.length;i++) {
+                          var li = $("<li></li>").text(post_code_array[i]);
+                          $(li).appendTo("#nearest_post_codes").addClass('list-group-item');
+                      }
+                    });
+
+                     //function to get planing records from planit.org
+
+                    $.get(url_to_get_planing_records, function(data, status){
+                      console.log(data);
+                      newString = data.replace('[','').replace(']', '');
+                      var str = newString;
+                      var planning_records_array = new Array();
+                      planning_records_array = str.split('"new_line",');
+                      for(var i=0;i<planning_records_array.length;i++) {
+                        var li = $("<li></li>").text(planning_records_array[i]);
+                        $(li).appendTo("#planing-records").addClass('list-group-item');
+                    }
+                    });
+
+                  } else if(data == 'false'){
+                    $("#post_code_search").css('border', 'solid 5px red');
+                    alert("Please enter the valid post code")
+                  }              
+                });
+ 
+              });
+    
+          });
+          </script>
+          <!----------JAVA SCRIPT----------------------->
+
+
+
+    </head>
+    <body>
+      <!----------NAVIGATION BAR-------------------------------------->
+      <div id ="post_code_form" class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-info">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link text-light" href="#home">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link text-light" href="#showtimes">API's</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link text-light" href="#deals">About us</a>
+                  </li>
+              </ul>
+              <form class="form-inline my-2 my-lg-0">
+                <input id = "post_code_search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button id="post_code_validator" class="btn btn-secondary active text-light" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
+      <!-------------------------------------------------------------------------->
+
+      <!----------------------------------JUmbo Trom------------------------>
+      <div class="jumbotron jumbotron-fluid bg-info text-center">
+        <div class="container">
+          <h1 class="display-4 text-light">Postcode Search</h1>
+          <p class="lead text-light">Enter postcode to see the results</p>
+        </div>
+      </div>
+    </div>
+          <!-------------------------------------------------------------------------->
+
+
+    
+        <!----------Parlimentray Constituency---------------------------------------------------------------->
+    <div class="container text-center" >
+      <div id = "parlimentary_con" background-color="#76D7C4">
+        <h3>Parliamentary Constituency</h3>
+      </div>
+    </div>
+
+<!----------Columns to display different records---------------------------------------------------------------->
+    <div class="container text-center">
+      <div id = "nearest_post_codes">
+        <h3>Nearest Postcodes</h3>
+      </div>
+    </div>
+
+   <!----------Crime reports---------------------------------------------------------------->
+   <div class="container text-center">
+    <div id = "crime_record_details">
+      <h3>Latest crime records</h3>
+    </div>
+   </div>
+
+    <!----------count crimainal records---------------------------------------------------------------->
+    <div class="container text-center">
+      <div id = "crime-records_number">
+        <h3>Total Number of records founds:</h3>
+      </div>
+      </div>
+
+          <!----------planing records---------------------------------------------------------------->
+    <div class="container text-center">
+      <div id = "planing-records">
+        <h3>Recent Planing records:</h3>
+      </div>
+      </div>
+
+
+      <!-------------------Footer------------------------------------ -->
+
+      <div class="container">
+        <ul class="nav my-5">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Postcode</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">areas@news.org</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">info@postcodesapi.com</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">our Api's</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">contact us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">about us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">&copy;2022 PostcodeArea&reg;</a>
+            </li>
+          </ul>
+    </div>
+
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+<!-------------------------------------------------------------------------->
