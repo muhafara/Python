@@ -20,3 +20,5 @@
  - Uses different AWS sevices as ec2, Lambda function, RedShift, IAM and S3.
  - Used data visulisation / data analytics tools such as AWS QuickSight and ThoughSpot to generate the live dashboard
  - Embeded the live dashboard using HTML, CSS and JavaScript. 
+ 
+ Visit Toothbrush orders and deliveries for more.
