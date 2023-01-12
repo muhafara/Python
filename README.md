@@ -13,11 +13,7 @@
 - Lambda - For retrival of information through the diferent website.
 - RDS - Stores data into database
 - API Gateway - API Gateway to trigger different lambda function. -S3 - Hosted this web application.
-- Frontend
-- JavaScript
-- JQuery
-- HTML
-- Bootsrap
+- Frontend : JavaScript, JQuery, HTML, Bootsrap
 
 ## Toothbrush Orders and Deliveries
  - Data analytic tool which reads data from AWS Redshift and generates insight based on information.
