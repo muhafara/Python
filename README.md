@@ -20,4 +20,7 @@
 - Bootsrap
 
 ## Toothbrush Orders and Deliveries
-It is a data analytic tool which reads data from AWS Redshift and generates insight based on information. It is build on AWS, data analytics tools such as QuickSight and ThoughSpot and display insight using HTML, CSS and JavaScript. 
+ - Data analytic tool which reads data from AWS Redshift and generates insight based on information.
+ - Uses different AWS sevices as ec2, Lambda function, RedShift, IAM and S3.
+ - Used data visulisation / data analytics tools such as AWS QuickSight and ThoughSpot to generate the live dashboard
+ - Embeded the live dashboard using HTML, CSS and JavaScript. 
