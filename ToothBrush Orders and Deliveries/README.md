@@ -32,4 +32,12 @@ This involves scheduling a Python script in our cloud AWS environment, transform
 
 ![Blank diagram](https://user-images.githubusercontent.com/92796969/211846153-7ef55429-337e-496e-a523-8a1f62b8e38f.jpeg)
 
+## Front End Design:
 
+![scrrenshort one](https://user-images.githubusercontent.com/92796969/212313259-60062b51-f935-47c5-8e6d-5513c63074a5.png)
+
+![scrrenshort two](https://user-images.githubusercontent.com/92796969/212313272-ebf06c84-9aac-4c0e-9d1e-bb4dc817823f.png)
+
+![scrrenshort three](https://user-images.githubusercontent.com/92796969/212313277-e958be59-7991-4b8c-87d7-5a4bfe37c193.png)
+
+![scrrenshort four](https://user-images.githubusercontent.com/92796969/212313295-2d70581b-fdc3-4b5c-b876-c50116da3c85.png)
